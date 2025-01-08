@@ -1,0 +1,16 @@
+:root {
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+    height: 95vh;
+    padding: 0 15%;
+    padding-top: 1rem;
+}
+
+.p-splitter {
+    height: 90%;
+}

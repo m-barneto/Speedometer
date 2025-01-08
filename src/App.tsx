@@ -1,35 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "primereact/resources/themes/bootstrap4-dark-blue/theme.css";
+import "primeicons/primeicons.css";
+import "primeflex/primeflex.css";
+import "./style.css";
+import ReactSpeedometer from "react-d3-speedometer";
+import { Splitter, SplitterPanel } from "primereact/splitter";
+
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+
+import { useContext } from "react";
+import { EventDataContext } from "./contexts/DataContext";
+import EventHistory from "./components/EventHistory";
+import Speedometer from "./components/Speedometer";
 
 function App() {
-  const [count, setCount] = useState(0)
+    const { eventData } = useContext(EventDataContext)!;
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    return (
+        <main>
+            <Splitter>
+                <SplitterPanel className="flex flex-row" size={15}>
+                    <EventHistory />
+                </SplitterPanel>
+                <SplitterPanel minSize={60}>
+                    <Speedometer />
+                </SplitterPanel>
+            </Splitter>
+        </main>
+    );
 }
 
-export default App
+export default App;
