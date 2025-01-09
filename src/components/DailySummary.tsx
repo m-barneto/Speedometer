@@ -13,13 +13,10 @@ export default function DailySummary() {
         // Go through each event
         eventData?.forEach((e) => {
             // get the event's hour
-            const hours = String(e.startTimeDate.getHours() % 12);
-            let mmmm = "AM";
-            if (e.startTimeDate.getHours() - 12 > 0) {
-                mmmm = "PM";
-            }
-
-            const bin = hours + " " + mmmm;
+            const bin = e.startDate.toLocaleString("en-US", {
+                hour: "numeric",
+                hour12: true,
+            });
             if (summary[bin] == undefined) {
                 summary[bin] = {
                     time: bin,
@@ -37,9 +34,7 @@ export default function DailySummary() {
             if (summary[bin].total_cars > 0) {
                 summary[bin].avg_duration = Number(
                     (
-                        summary[bin].total_duration /
-                        summary[bin].total_cars /
-                        60
+                        summary[bin].total_duration / summary[bin].total_cars
                     ).toFixed(2)
                 );
             } else {
@@ -52,15 +47,26 @@ export default function DailySummary() {
 
     return (
         <DataTable
+            showGridlines
+            stripedRows
             scrollable
+            removableSort
             scrollHeight="flex"
             size="normal"
             value={dailySummary}
-            tableStyle={{ minWidth: "10rem", width: "auto" }}
-            style={{ width: "100%" }}>
-            <Column field="time" header="Time"></Column>
-            <Column field="total_cars" header="Cars"></Column>
-            <Column field="avg_duration" header="Avg Time (s)"></Column>
+            style={{
+                width: "100%",
+                paddingLeft: "1rem",
+                paddingRight: "1rem",
+                alignSelf: "flex-end",
+                height: "200px",
+            }}>
+            <Column sortable field="time" header="Time"></Column>
+            <Column sortable field="total_cars" header="Cars"></Column>
+            <Column
+                sortable
+                field="avg_duration"
+                header="Avg Time (m)"></Column>
         </DataTable>
     );
 }

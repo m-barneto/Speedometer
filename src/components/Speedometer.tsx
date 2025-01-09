@@ -3,17 +3,22 @@ import ReactSpeedometer from "react-d3-speedometer";
 import { EventDataContext } from "../contexts/DataContext";
 import { getPastHour } from "../utils/Period";
 import GaugeComponent from "react-gauge-component";
+import { SimTimeContext } from "../contexts/SimTimeContext";
 
 export default function Speedometer() {
     const { eventData } = useContext(EventDataContext)!;
+    const { simTime } = useContext(SimTimeContext)!;
 
     const [carsPerHour, setCarsPerHour] = useState(0);
     const [avgEventDuration, setAvgEventDuration] = useState(0);
 
     useEffect(() => {
         if (!eventData) return;
+        if (!simTime) return;
+        console.log("Updated thingies");
         // Go through every event (in past hour?) and calculate avg time and cars per hour
-        const lastHour = getPastHour(eventData!);
+        const lastHour = getPastHour(simTime, eventData!);
+        console.log(lastHour.length);
 
         // Calculate avg event duration in the past hour
         let sum = 0;
@@ -21,9 +26,7 @@ export default function Speedometer() {
             sum += e.duration;
         });
         if (lastHour.length > 0) {
-            setAvgEventDuration(
-                Number((sum / lastHour.length / 60).toFixed(2))
-            );
+            setAvgEventDuration(Number((sum / lastHour.length).toFixed(2)));
         } else {
             setAvgEventDuration(0);
         }

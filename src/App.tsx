@@ -14,6 +14,7 @@ import EventHistory from "./components/EventHistory";
 import Speedometer from "./components/Speedometer";
 import { Divider } from "primereact/divider";
 import DailySummary from "./components/DailySummary";
+import SimTimeController from "./components/SimTimeController";
 
 function App() {
     const { eventData } = useContext(EventDataContext)!;
@@ -25,7 +26,11 @@ function App() {
                     <EventHistory />
                 </SplitterPanel>
                 <SplitterPanel minSize={60}>
-                    <div>
+                    <div
+                        style={{
+                            width: "100%",
+                        }}>
+                        <SimTimeController />
                         <Speedometer />
                         <DailySummary />
                     </div>

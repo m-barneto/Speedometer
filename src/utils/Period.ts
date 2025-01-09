@@ -1,11 +1,11 @@
 import { EventData } from "../data/EventData";
 
-export const getPastHour = (events: EventData[]) => {
+export const getPastHour = (simTime: Date, events: EventData[]) => {
     const periodicEvents: EventData[] = [];
-    const date = new Date();
     events.forEach((e) => {
         // / 60
-        if ((date.getTime() - e.startTimeDate.getTime()) / 1000 / 60 <= 1) {
+        const timeDiff = (simTime.getTime() - e.startDate.getTime()) / 1000 / 60 / 60;
+        if (timeDiff <= 1 && timeDiff > 0) {
             periodicEvents.push(e);
         }
     });
