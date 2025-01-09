@@ -12,6 +12,8 @@ import { useContext } from "react";
 import { EventDataContext } from "./contexts/DataContext";
 import EventHistory from "./components/EventHistory";
 import Speedometer from "./components/Speedometer";
+import { Divider } from "primereact/divider";
+import DailySummary from "./components/DailySummary";
 
 function App() {
     const { eventData } = useContext(EventDataContext)!;
@@ -23,7 +25,10 @@ function App() {
                     <EventHistory />
                 </SplitterPanel>
                 <SplitterPanel minSize={60}>
-                    <Speedometer />
+                    <div>
+                        <Speedometer />
+                        <DailySummary />
+                    </div>
                 </SplitterPanel>
             </Splitter>
         </main>

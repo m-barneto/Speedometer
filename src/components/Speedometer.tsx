@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import ReactSpeedometer from "react-d3-speedometer";
 import { EventDataContext } from "../contexts/DataContext";
 import { getPastHour } from "../utils/Period";
+import GaugeComponent from "react-gauge-component";
 
 export default function Speedometer() {
     const { eventData } = useContext(EventDataContext)!;
@@ -19,25 +20,161 @@ export default function Speedometer() {
         lastHour.forEach((e) => {
             sum += e.duration;
         });
-        setAvgEventDuration(Number((sum / lastHour.length / 60).toFixed(2)));
+        if (lastHour.length > 0) {
+            setAvgEventDuration(
+                Number((sum / lastHour.length / 60).toFixed(2))
+            );
+        } else {
+            setAvgEventDuration(0);
+        }
 
         // Calculate how many cars we had in the past hour
         setCarsPerHour(lastHour.length);
     }, [eventData]);
 
     return (
-        <div>
-            <ReactSpeedometer
-                currentValueText="${value} Cars/Hour"
-                segments={3}
+        <div
+            style={{
+                display: "flex",
+                width: "100%",
+                justifyContent: "space-around",
+            }}>
+            <GaugeComponent
+                type="radial"
+                labels={{
+                    valueLabel: {
+                        formatTextValue: (value) => value + " cars/hour",
+                    },
+                    tickLabels: {
+                        type: "inner",
+                        ticks: [
+                            { value: 15 },
+                            { value: 30 },
+                            { value: 45 },
+                            { value: 60 },
+                        ],
+                        defaultTickValueConfig: {
+                            formatTextValue: (value: string) => value,
+                        },
+                    },
+                }}
+                arc={{
+                    colorArray: ["#EA4228", "#5BE12C"],
+                    subArcs: [
+                        {
+                            limit: 5,
+                        },
+                        {
+                            limit: 10,
+                        },
+                        {
+                            limit: 15,
+                        },
+                        {
+                            limit: 20,
+                        },
+                        {
+                            limit: 25,
+                        },
+                        {
+                            limit: 30,
+                        },
+                        {
+                            limit: 35,
+                        },
+                        {
+                            limit: 40,
+                        },
+                        {
+                            limit: 45,
+                        },
+                        {
+                            limit: 50,
+                        },
+                        {
+                            limit: 55,
+                        },
+                        {},
+                    ],
+                }}
+                minValue={0}
+                maxValue={60}
+                pointer={{
+                    color: "#EA4228",
+                    length: 0.8,
+                    width: 15,
+                }}
                 value={carsPerHour}
-                maxValue={90}
             />
-            <ReactSpeedometer
-                currentValueText="${value} Avg Event Duration"
-                segments={4}
+
+            <GaugeComponent
+                type="radial"
+                labels={{
+                    valueLabel: {
+                        formatTextValue: (value) => value + " mins/car",
+                    },
+                    tickLabels: {
+                        type: "inner",
+                        ticks: [
+                            { value: 2 },
+                            { value: 4 },
+                            { value: 6 },
+                            { value: 8 },
+                            { value: 10 },
+                        ],
+                        defaultTickValueConfig: {
+                            formatTextValue: (value: string) => value,
+                        },
+                    },
+                }}
+                arc={{
+                    colorArray: ["#5BE12C", "#EA4228"],
+                    subArcs: [
+                        {},
+                        {
+                            limit: 1,
+                        },
+                        {
+                            limit: 2,
+                        },
+                        {
+                            limit: 3,
+                        },
+                        {
+                            limit: 4,
+                        },
+                        {
+                            limit: 5,
+                        },
+                        {
+                            limit: 6,
+                        },
+                        {
+                            limit: 7,
+                        },
+                        {
+                            limit: 8,
+                        },
+                        {
+                            limit: 9,
+                        },
+                        {
+                            limit: 10,
+                        },
+                        {
+                            limit: 11,
+                        },
+                        {},
+                    ],
+                }}
+                minValue={0}
+                maxValue={12}
+                pointer={{
+                    color: "#EA4228",
+                    length: 0.8,
+                    width: 15,
+                }}
                 value={avgEventDuration}
-                maxValue={10}
             />
         </div>
     );
