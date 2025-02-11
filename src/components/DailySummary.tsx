@@ -58,7 +58,7 @@ export default function DailySummary() {
                 width: "100%",
                 paddingLeft: "1rem",
                 paddingRight: "1rem",
-                alignSelf: "flex-end",
+
                 height: "200px",
             }}>
             <Column sortable field="time" header="Time"></Column>

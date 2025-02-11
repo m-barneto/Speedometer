@@ -7,26 +7,6 @@ import { EventData } from "../data/EventData";
 export default function EventHistory() {
     const { eventData, setEventData } = useContext(EventDataContext)!;
 
-    useEffect(() => {
-        const id = setInterval(() => {
-            // Create event
-            const date = new Date();
-            const min = 5;
-            const max = 15;
-            const duration = Number(
-                (Math.random() * (max - min) + min).toFixed(1)
-            );
-            const event: EventData = new EventData(
-                "1",
-                date.toISOString(),
-                duration
-            );
-            //setEventData((eventData) => [event, ...eventData!]);
-        }, 2500);
-
-        return () => clearInterval(id);
-    }, []);
-
     return (
         <DataTable
             scrollable

@@ -29,7 +29,27 @@ export const EventDataProvider: React.FC<{ children: React.ReactNode }> = ({
     }, [eventData]);
 
     useEffect(() => {
-        setEventData([]);
+        const id = setInterval(() => {
+            const events: EventData[] = [];
+            fetch("http://localhost:8000/data")
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data["data"]);
+                    for (const i of data["data"]) {
+                        events.push(
+                            new EventData(
+                                "",
+                                i["body"]["startTime"],
+                                i["body"]["durationInSeconds"]
+                            )
+                        );
+                    }
+                });
+            setEventData(events);
+            console.log(events);
+        }, 2500);
+
+        return () => clearInterval(id);
     }, []);
 
     return (
